@@ -10,7 +10,7 @@ services:
     networks:
       - network-app
     volumes:
-      - ./src:/app
+      - ./src/app.py:/app/app.py
     links:
       - mongo
 
