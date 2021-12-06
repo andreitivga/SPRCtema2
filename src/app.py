@@ -189,7 +189,8 @@ def get_cities_from_country(id_tara):
 	try:
 		tara = Tari.objects(pk=id_tara).get()
 	except:
-		return Response(status=404)
+		return jsonify(resp_list), 200
+
 
 	for doc in Orase.objects:
 		if doc.id_tara == tara:
