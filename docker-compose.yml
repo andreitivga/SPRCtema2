@@ -3,12 +3,14 @@ version: '3.3'
 services:
 
   app:
-    build: .
-    command: python -u app.py
+    build: ./src
+    command: python app.py
     ports:
       - "5000:5000"
+    networks:
+      - network-app
     volumes:
-      - .:/app
+      - ./src:/app
     links:
       - mongo
 
@@ -23,7 +25,10 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ./init-db.js:/docker-entrypoint-initdb.d/init-db.js:ro
+      - ./db/init-db.js:/docker-entrypoint-initdb.d/init-db.js:ro
+    networks:
+      - network-app
+      - network-express
 
   mongo-express:
     image: mongo-express:0.54.0
@@ -39,4 +44,9 @@ services:
       ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
     links:
       - mongo
+    networks:
+      - network-express
 
+networks:
+  network-app: {}
+  network-express: {}
